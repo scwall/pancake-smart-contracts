@@ -134,7 +134,7 @@ contract PancakeZapV1 is Ownable, ReentrancyGuard {
         uint256 _tokenAmountOutMin
     ) external nonReentrant {
         // Transfer tokens to this contract
-        IERC20(_tokenToZap).safeTransferFrom(address(msg.sender), address(this), _tokenAmountIn);
+        IERC20(_tokenToZap).safeTransfer(address(msg.sender), address(this), _tokenAmountIn);
 
         // Call zap function
         uint256 lpTokenAmountTransferred = _zapIn(_tokenToZap, _tokenAmountIn, _lpToken, _tokenAmountOutMin);
@@ -165,8 +165,8 @@ contract PancakeZapV1 is Ownable, ReentrancyGuard {
         bool _isToken0Sold
     ) external nonReentrant {
         // Transfer tokens to this contract
-        IERC20(_token0ToZap).safeTransferFrom(address(msg.sender), address(this), _token0AmountIn);
-        IERC20(_token1ToZap).safeTransferFrom(address(msg.sender), address(this), _token1AmountIn);
+        IERC20(_token0ToZap).safeTransfer(address(msg.sender), address(this), _token0AmountIn);
+        IERC20(_token1ToZap).safeTransfer(address(msg.sender), address(this), _token1AmountIn);
 
         // Call zapIn function
         uint256 lpTokenAmountTransferred = _zapInRebalancing(
@@ -211,7 +211,7 @@ contract PancakeZapV1 is Ownable, ReentrancyGuard {
     ) external payable nonReentrant {
         WBNB.deposit{value: msg.value}();
 
-        IERC20(_token1ToZap).safeTransferFrom(address(msg.sender), address(this), _token1AmountIn);
+        IERC20(_token1ToZap).safeTransfer(address(msg.sender), address(this), _token1AmountIn);
 
         // Call zapIn function
         uint256 lpTokenAmountTransferred = _zapInRebalancing(
@@ -249,7 +249,7 @@ contract PancakeZapV1 is Ownable, ReentrancyGuard {
         uint256 _tokenAmountOutMin
     ) external nonReentrant {
         // Transfer LP token to this address
-        IERC20(_lpToken).safeTransferFrom(address(msg.sender), address(_lpToken), _lpTokenAmount);
+        IERC20(_lpToken).safeTransfer(address(msg.sender), address(_lpToken), _lpTokenAmount);
 
         // Call zapOut
         uint256 tokenAmountToTransfer = _zapOut(_lpToken, WBNBAddress, _tokenAmountOutMin);
@@ -285,7 +285,7 @@ contract PancakeZapV1 is Ownable, ReentrancyGuard {
         uint256 _tokenAmountOutMin
     ) external nonReentrant {
         // Transfer LP token to this address
-        IERC20(_lpToken).safeTransferFrom(address(msg.sender), address(_lpToken), _lpTokenAmount);
+        IERC20(_lpToken).safeTransfer(address(msg.sender), address(_lpToken), _lpTokenAmount);
 
         uint256 tokenAmountToTransfer = _zapOut(_lpToken, _tokenToReceive, _tokenAmountOutMin);
 

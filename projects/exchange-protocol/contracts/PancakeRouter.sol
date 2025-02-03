@@ -82,8 +82,8 @@ contract PancakeRouter is IPancakeRouter02 {
     {
         (amountA, amountB) = _addLiquidity(tokenA, tokenB, amountADesired, amountBDesired, amountAMin, amountBMin);
         address pair = PancakeLibrary.pairFor(factory, tokenA, tokenB);
-        TransferHelper.safeTransferFrom(tokenA, msg.sender, pair, amountA);
-        TransferHelper.safeTransferFrom(tokenB, msg.sender, pair, amountB);
+        TransferHelper.safeTransfer(tokenA, msg.sender, pair, amountA);
+        TransferHelper.safeTransfer(tokenB, msg.sender, pair, amountB);
         liquidity = IPancakePair(pair).mint(to);
     }
 
@@ -115,7 +115,7 @@ contract PancakeRouter is IPancakeRouter02 {
             amountETHMin
         );
         address pair = PancakeLibrary.pairFor(factory, token, WETH);
-        TransferHelper.safeTransferFrom(token, msg.sender, pair, amountToken);
+        TransferHelper.safeTransfer(token, msg.sender, pair, amountToken);
         IWETH(WETH).deposit{value: amountETH}();
         assert(IWETH(WETH).transfer(pair, amountETH));
         liquidity = IPancakePair(pair).mint(to);
@@ -268,7 +268,7 @@ contract PancakeRouter is IPancakeRouter02 {
     ) external virtual override ensure(deadline) returns (uint256[] memory amounts) {
         amounts = PancakeLibrary.getAmountsOut(factory, amountIn, path);
         require(amounts[amounts.length - 1] >= amountOutMin, "PancakeRouter: INSUFFICIENT_OUTPUT_AMOUNT");
-        TransferHelper.safeTransferFrom(
+        TransferHelper.safeTransfer(
             path[0],
             msg.sender,
             PancakeLibrary.pairFor(factory, path[0], path[1]),
@@ -286,7 +286,7 @@ contract PancakeRouter is IPancakeRouter02 {
     ) external virtual override ensure(deadline) returns (uint256[] memory amounts) {
         amounts = PancakeLibrary.getAmountsIn(factory, amountOut, path);
         require(amounts[0] <= amountInMax, "PancakeRouter: EXCESSIVE_INPUT_AMOUNT");
-        TransferHelper.safeTransferFrom(
+        TransferHelper.safeTransfer(
             path[0],
             msg.sender,
             PancakeLibrary.pairFor(factory, path[0], path[1]),
@@ -319,7 +319,7 @@ contract PancakeRouter is IPancakeRouter02 {
         require(path[path.length - 1] == WETH, "PancakeRouter: INVALID_PATH");
         amounts = PancakeLibrary.getAmountsIn(factory, amountOut, path);
         require(amounts[0] <= amountInMax, "PancakeRouter: EXCESSIVE_INPUT_AMOUNT");
-        TransferHelper.safeTransferFrom(
+        TransferHelper.safeTransfer(
             path[0],
             msg.sender,
             PancakeLibrary.pairFor(factory, path[0], path[1]),
@@ -340,7 +340,7 @@ contract PancakeRouter is IPancakeRouter02 {
         require(path[path.length - 1] == WETH, "PancakeRouter: INVALID_PATH");
         amounts = PancakeLibrary.getAmountsOut(factory, amountIn, path);
         require(amounts[amounts.length - 1] >= amountOutMin, "PancakeRouter: INSUFFICIENT_OUTPUT_AMOUNT");
-        TransferHelper.safeTransferFrom(
+        TransferHelper.safeTransfer(
             path[0],
             msg.sender,
             PancakeLibrary.pairFor(factory, path[0], path[1]),
@@ -398,7 +398,7 @@ contract PancakeRouter is IPancakeRouter02 {
         address to,
         uint256 deadline
     ) external virtual override ensure(deadline) {
-        TransferHelper.safeTransferFrom(
+        TransferHelper.safeTransfer(
             path[0],
             msg.sender,
             PancakeLibrary.pairFor(factory, path[0], path[1]),
@@ -438,7 +438,7 @@ contract PancakeRouter is IPancakeRouter02 {
         uint256 deadline
     ) external virtual override ensure(deadline) {
         require(path[path.length - 1] == WETH, "PancakeRouter: INVALID_PATH");
-        TransferHelper.safeTransferFrom(
+        TransferHelper.safeTransfer(
             path[0],
             msg.sender,
             PancakeLibrary.pairFor(factory, path[0], path[1]),
