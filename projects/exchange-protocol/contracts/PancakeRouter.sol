@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity =0.6.6;
 
-import '@uniswap/lib/contracts/libraries/TransferHelper.sol';
+import './libraries/TransferHelper.sol';
 
 import "./interfaces/IPancakeRouter02.sol";
 import "./interfaces/IPancakeFactory.sol";
